@@ -78,3 +78,10 @@ def generate_patterns(count):
 
     for i in range(2**(count-1)):
         yield [int(x) for x in format(i, 'b').zfill(count)]
+
+
+def switch(call):
+    """Switch the genotype calls around"""
+    new = call.copy()
+    new['GT'] = new['GT'][::-1]
+    return new

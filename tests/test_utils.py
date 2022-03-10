@@ -127,3 +127,13 @@ def test_generate_pattern_four():
     ]
 
     assert list(utils.generate_patterns(4)) == expected
+
+
+def test_switch_hom_ref():
+    homref = {'GT': (0, 0)}
+    assert utils.switch(homref) == homref
+
+
+def test_switch_het():
+    het = {'GT': (0, 1)}
+    assert utils.switch(het) == {'GT': (1, 0)}
