@@ -1,4 +1,5 @@
 import copy
+import vcf
 
 
 def get_alleles(call):
@@ -49,7 +50,12 @@ def are_compatible(calls, call):
 
 def get_call(variant):
     """ Return the call from a variant """
-    return variant.samples[0]
+    # Real data
+    if isinstance(variant, vcf.model._Record):
+        return variant.samples[0].data
+    # Test data
+    else:
+        return variant.samples[0]
 
 
 def get_phase_id(variants):
