@@ -83,7 +83,7 @@ def test_group_variants():
     assert utils.group_variants([var]) == {'internal_0': [var]}
 
 
-def test_group_compatible_variants():
+def test_group_variants_compatible():
     # Homozygous variant
     hom = {'GT': (0, 0)}
     var1 = types.SimpleNamespace(samples=[hom])
@@ -93,3 +93,12 @@ def test_group_compatible_variants():
     var2 = types.SimpleNamespace(samples=[het])
 
     assert utils.group_variants([var1, var2]) == {'internal_0': [var1, var2]}
+
+
+def test_group_variants_incompatible():
+    het = {'GT': (1, 0)}
+    var = types.SimpleNamespace(samples=[het])
+
+    assert utils.group_variants([var, var]) == {
+            'internal_0': [var],
+            'internal_1': [var]}

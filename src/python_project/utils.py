@@ -62,6 +62,14 @@ def group_variants(variants):
         call = get_call(record)
         if are_compatible([get_call(rec) for rec in current_group], call):
             current_group.append(record)
-    grouped_variants[f"internal_{internal_counter}"] = current_group
+        else:
+            grouped_variants[f"internal_{internal_counter}"] = current_group
+            current_group = [record]
+            internal_counter += 1
+
+    # If we were still working on a group of variants when we got to the lest
+    # one
+    if current_group:
+        grouped_variants[f"internal_{internal_counter}"] = current_group
 
     return grouped_variants
