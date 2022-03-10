@@ -36,11 +36,41 @@ def get_call(variant):
     return variant.samples[0]
 
 
+def get_phase_id(variants):
+    for var in variants:
+        call = get_call(var)
+        if 'PS' in call:
+            return call['PS']
+
+
+def add_group(grouped_variants, current_group, phased):
+    """Add current_group to the grouped variants
+
+    This can be tricky when there are phased variants
+    """
+    phase_id = get_phase_id(current_group)
+    if not phase_id:
+        grouped_variants.append(current_group)
+    else:
+        # If we have seen this phase ID before
+        if phase_id in phased:
+            index = phased[phase_id]
+            grouped_variants[index] += current_group
+        else:
+            index = len(grouped_variants)
+            grouped_variants.append(current_group)
+            phased[phase_id] = index
+
+
 def group_variants(variants):
     """Group compatible variants together"""
 
     # Store the grouped variants in a list of list of variants
     grouped_variants = list()
+
+    # Store the index of phased groups, since they could be interleafed, so we
+    # have to add more variants to them lates
+    phased = dict()
 
     current_group = list()
     for record in variants:
@@ -48,13 +78,13 @@ def group_variants(variants):
         if are_compatible([get_call(rec) for rec in current_group], call):
             current_group.append(record)
         else:
-            grouped_variants.append(current_group)
+            add_group(grouped_variants, current_group, phased)
             current_group = [record]
 
     # If we were still working on a group of variants when we got to the last
     # one
     if current_group:
-        grouped_variants.append(current_group)
+        add_group(grouped_variants, current_group, phased)
 
     return grouped_variants
 

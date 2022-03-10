@@ -98,6 +98,36 @@ def test_group_variants_incompatible():
     assert utils.group_variants([var, var]) == [[var], [var]]
 
 
+def test_group_variants_phased():
+    het1 = {'GT': (1, 0), 'PS': 1}
+    var1 = types.SimpleNamespace(samples=[het1])
+
+    het2 = {'GT': (1, 0), 'PS': 2}
+    var2 = types.SimpleNamespace(samples=[het2])
+
+    assert utils.group_variants([var1, var2]) == [[var1], [var2]]
+
+
+def test_group_variants_interleafed():
+    """In theory, phased blocks can be interleafed"""
+    het1 = {'GT': (1, 0), 'PS': 1}
+    var1 = types.SimpleNamespace(samples=[het1])
+
+    het2 = {'GT': (1, 0), 'PS': 2}
+    var2 = types.SimpleNamespace(samples=[het2])
+
+    # var2 falls within the phase block of var1
+    variants = [var1, var2, var1]
+
+    expected = [
+        [var1, var1],
+        [var2]
+    ]
+
+    print(utils.group_variants(variants))
+    assert utils.group_variants(variants) == expected
+
+
 def test_generate_pattern_zero():
     assert list(utils.generate_patterns(0)) == list()
 
@@ -165,6 +195,21 @@ def test_switch_variants():
     assert utils.get_call(var2)['GT'] == (0, 1)
 
 
+def test_get_phase_id():
+    """Get phase ID from a group of variants"""
+    het = {'GT': (1, 0), 'PS': 12}
+    var = types.SimpleNamespace(samples=[het])
+
+    assert utils.get_phase_id([var, var]) == 12
+
+
+def test_get_phase_none_phased():
+    het = {'GT': (1, 0)}
+    var = types.SimpleNamespace(samples=[het])
+
+    assert utils.get_phase_id([var]) is None
+
+
 def test_all_combinations():
     het1 = {'GT': (1, 0)}
     var1 = types.SimpleNamespace(samples=[het1])
@@ -179,5 +224,4 @@ def test_all_combinations():
 
     # pattern 01, where the second variant is switched
     result = next(it)
-    print(result)
     assert [utils.get_call(var[0])['GT'] for var in result] == [(1, 0), (1, 0)]
