@@ -69,3 +69,12 @@ def group_variants(variants):
         grouped_variants.append(current_group)
 
     return grouped_variants
+
+
+def generate_patterns(count):
+    """Generate patterns for switching variants around"""
+    if count < 1:
+        return list()
+
+    for i in range(2**(count-1)):
+        yield [int(x) for x in format(i, 'b').zfill(count)]

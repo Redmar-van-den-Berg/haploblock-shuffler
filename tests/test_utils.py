@@ -100,3 +100,30 @@ def test_group_variants_incompatible():
     var = types.SimpleNamespace(samples=[het])
 
     assert utils.group_variants([var, var]) == [[var], [var]]
+
+
+def test_generate_pattern_zero():
+    assert list(utils.generate_patterns(0)) == list()
+
+
+def test_generate_pattern_one():
+    assert list(utils.generate_patterns(1)) == [[0]]
+
+
+def test_generate_pattern_two():
+    assert list(utils.generate_patterns(2)) == [[0, 0], [0, 1]]
+
+
+def test_generate_pattern_four():
+    expected = [
+            [0, 0, 0, 0],
+            [0, 0, 0, 1],
+            [0, 0, 1, 0],
+            [0, 0, 1, 1],
+            [0, 1, 0, 0],
+            [0, 1, 0, 1],
+            [0, 1, 1, 0],
+            [0, 1, 1, 1]
+    ]
+
+    assert list(utils.generate_patterns(4)) == expected
