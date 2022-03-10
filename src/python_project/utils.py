@@ -1,3 +1,6 @@
+import copy
+
+
 def is_homozygous(call):
     """Determine if a call is homozygous"""
     return call['GT'][0] == call['GT'][1]
@@ -70,3 +73,16 @@ def switch(call):
     new = call.copy()
     new['GT'] = new['GT'][::-1]
     return new
+
+
+def switch_variant(var):
+    """ Switch the calls for a variant around """
+    newvar = copy.deepcopy(var)
+    call = get_call(newvar)
+    newvar.samples = [switch(call)]
+    return newvar
+
+
+def all_combinations(variants):
+    """Yield all possible combinations of variants"""
+    pass

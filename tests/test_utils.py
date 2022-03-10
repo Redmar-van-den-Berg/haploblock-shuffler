@@ -3,10 +3,6 @@ import types
 from python_project import utils
 
 
-def test_addition():
-    assert utils.addition(1, 2) == 3
-
-
 def test_is_hom_ref():
     assert utils.is_homozygous({'GT': (0, 0)})
 
@@ -137,3 +133,15 @@ def test_switch_hom_ref():
 def test_switch_het():
     het = {'GT': (0, 1)}
     assert utils.switch(het) == {'GT': (1, 0)}
+
+
+def test_switch_call_variant():
+    het = {'GT': (1, 0)}
+    var = types.SimpleNamespace(samples=[het])
+    switched = utils.switch_variant(var)
+
+    # Test if we switched the calls around
+    assert utils.get_call(switched) == {'GT': (0, 1)}
+
+    # Make sure we didn't modify the original var
+    assert utils.get_call(var) == {'GT': (1, 0)}
