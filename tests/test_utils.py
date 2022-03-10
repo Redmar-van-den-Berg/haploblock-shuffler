@@ -1,3 +1,5 @@
+import types
+
 from python_project import utils
 
 
@@ -22,10 +24,15 @@ def test_are_compatible_empty():
     assert utils.are_compatible([], None)
 
 
+def test_are_compatible_three_homs():
+    call = {'GT': (1, 1)}
+    assert utils.are_compatible([call, call], call) is True
+
+
 def test_is_compatible_hom():
     """ A homozygous variant is compatible with any other variant """
     call = {'GT': (1, 1)}
-    assert utils.is_compatible(call, call) is True
+    assert utils.is_compatible(call, call)
 
 
 def test_is_compatible_two_het():
@@ -66,3 +73,23 @@ def test_is_compatible_incompatible_phased_hom():
     hom = {'GT': (0, 0), 'PS': 0}
     call = {'GT': (0, 1), 'PS': 1}
     assert utils.is_compatible(hom, call) is False
+
+
+def test_group_variants():
+    hom = {'GT': (0, 0)}
+    # A variant has a list of samples that contains the calls
+    var = types.SimpleNamespace()
+    var.samples = [hom]
+    assert utils.group_variants([var]) == {'internal_0': [var]}
+
+
+def test_group_compatible_variants():
+    # Homozygous variant
+    hom = {'GT': (0, 0)}
+    var1 = types.SimpleNamespace(samples=[hom])
+
+    # Heterozygous variant
+    het = {'GT': (1, 0)}
+    var2 = types.SimpleNamespace(samples=[het])
+
+    assert utils.group_variants([var1, var2]) == {'internal_0': [var1, var2]}

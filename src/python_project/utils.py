@@ -41,3 +41,27 @@ def is_compatible(call1, call2):
 def are_compatible(calls, call):
     """ Determine if a call is compatible with a list of calls """
     return all((is_compatible(call, c) for c in calls))
+
+
+def get_call(variant):
+    """ Return the call from a variant """
+    return variant.samples[0]
+
+
+def group_variants(variants):
+    """Group compatible variants together"""
+
+    # Store the grouped variants by phase ID
+    grouped_variants = dict()
+
+    # Internal phase ID's for unphased variants
+    internal_counter = 0
+
+    current_group = list()
+    for record in variants:
+        call = get_call(record)
+        if are_compatible([get_call(rec) for rec in current_group], call):
+            current_group.append(record)
+    grouped_variants[f"internal_{internal_counter}"] = current_group
+
+    return grouped_variants
