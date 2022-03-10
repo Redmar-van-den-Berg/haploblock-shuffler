@@ -83,6 +83,14 @@ def switch_variant(var):
     return newvar
 
 
+def switch_variants(variants):
+    """Switch the calls for all variants"""
+    return [switch_variant(var) for var in variants]
+
+
 def all_combinations(variants):
     """Yield all possible combinations of variants"""
-    pass
+    grouped = group_variants(variants)
+
+    for pattern in generate_patterns(len(grouped)):
+        pass

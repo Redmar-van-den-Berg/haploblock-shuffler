@@ -145,3 +145,21 @@ def test_switch_call_variant():
 
     # Make sure we didn't modify the original var
     assert utils.get_call(var) == {'GT': (1, 0)}
+
+
+def test_switch_variants():
+    het1 = {'GT': (1, 0)}
+    var1 = types.SimpleNamespace(samples=[het1])
+
+    het2 = {'GT': (0, 1)}
+    var2 = types.SimpleNamespace(samples=[het2])
+
+    switched = utils.switch_variants([var1, var2])
+
+    # Test if we got back both variants switched
+    assert utils.get_call(switched[0])['GT'] == (0, 1)
+    assert utils.get_call(switched[1])['GT'] == (1, 0)
+
+    # Test that the original variants remain unmodified
+    assert utils.get_call(var1)['GT'] == (1, 0)
+    assert utils.get_call(var2)['GT'] == (0, 1)
