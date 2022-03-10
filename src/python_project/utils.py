@@ -19,10 +19,18 @@ def is_heterozygous(call):
     return not is_homozygous(call)
 
 
+def ps_defined(call):
+    try:
+        call.PS
+        return True
+    except AttributeError:
+        return False
+
+
 def is_compatible(call1, call2):
     """Are two calls compatible"""
     # If both are phased, the phase set must match.
-    if "PS" in call1._fields and "PS" in call2._fields:
+    if ps_defined(call1) and ps_defined(call2):
         return call1.PS == call2.PS
 
     # Two homozygous calls are compatible
@@ -47,7 +55,7 @@ def get_call(variant):
 def get_phase_id(variants):
     for var in variants:
         call = get_call(var)
-        if 'PS' in call._fields:
+        if ps_defined(call):
             return call.PS
 
 
