@@ -27,3 +27,11 @@ def compatible(calls, call):
     # A homozygous call is compatible with any list of calls
     if is_homozygous(call):
         return True
+
+    # Check each call in turn, does the phase set match for any call
+    for c in calls:
+        if 'PS' in call:
+            return call['PS'] == c.get('PS')
+
+    # If call is heterozygous, all (other) existing calls must be homozygous
+    return all((is_homozygous(c) for c in calls))
