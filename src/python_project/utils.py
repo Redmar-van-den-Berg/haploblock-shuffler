@@ -51,11 +51,8 @@ def get_call(variant):
 def group_variants(variants):
     """Group compatible variants together"""
 
-    # Store the grouped variants by phase ID
-    grouped_variants = dict()
-
-    # Internal phase ID's for unphased variants
-    internal_counter = 0
+    # Store the grouped variants in a list of list of variants
+    grouped_variants = list()
 
     current_group = list()
     for record in variants:
@@ -63,13 +60,12 @@ def group_variants(variants):
         if are_compatible([get_call(rec) for rec in current_group], call):
             current_group.append(record)
         else:
-            grouped_variants[f"internal_{internal_counter}"] = current_group
+            grouped_variants.append(current_group)
             current_group = [record]
-            internal_counter += 1
 
-    # If we were still working on a group of variants when we got to the lest
+    # If we were still working on a group of variants when we got to the last
     # one
     if current_group:
-        grouped_variants[f"internal_{internal_counter}"] = current_group
+        grouped_variants.append(current_group)
 
     return grouped_variants

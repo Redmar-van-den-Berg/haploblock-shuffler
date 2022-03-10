@@ -80,7 +80,7 @@ def test_group_variants():
     # A variant has a list of samples that contains the calls
     var = types.SimpleNamespace()
     var.samples = [hom]
-    assert utils.group_variants([var]) == {'internal_0': [var]}
+    assert utils.group_variants([var]) == [[var]]
 
 
 def test_group_variants_compatible():
@@ -92,13 +92,11 @@ def test_group_variants_compatible():
     het = {'GT': (1, 0)}
     var2 = types.SimpleNamespace(samples=[het])
 
-    assert utils.group_variants([var1, var2]) == {'internal_0': [var1, var2]}
+    assert utils.group_variants([var1, var2]) == [[var1, var2]]
 
 
 def test_group_variants_incompatible():
     het = {'GT': (1, 0)}
     var = types.SimpleNamespace(samples=[het])
 
-    assert utils.group_variants([var, var]) == {
-            'internal_0': [var],
-            'internal_1': [var]}
+    assert utils.group_variants([var, var]) == [[var], [var]]
