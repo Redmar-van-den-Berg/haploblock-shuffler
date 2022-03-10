@@ -1,9 +1,17 @@
 import copy
 
 
+def get_alleles(call):
+    if '/' in call.GT:
+        return call.GT.split('/')
+    elif '|' in call.GT:
+        return call.GT.split('|')
+
+
 def is_homozygous(call):
     """Determine if a call is homozygous"""
-    return call["GT"][0] == call["GT"][1]
+    allele1, allele2 = get_alleles(call)
+    return allele1 == allele2
 
 
 def is_heterozygous(call):
@@ -14,8 +22,8 @@ def is_heterozygous(call):
 def is_compatible(call1, call2):
     """Are two calls compatible"""
     # If both are phased, the phase set must match.
-    if "PS" in call1 and "PS" in call2:
-        return call1["PS"] == call2["PS"]
+    if "PS" in call1._fields and "PS" in call2._fields:
+        return call1.PS == call2.PS
 
     # Two homozygous calls are compatible
     if is_homozygous(call1) or is_homozygous(call2):
@@ -39,8 +47,8 @@ def get_call(variant):
 def get_phase_id(variants):
     for var in variants:
         call = get_call(var)
-        if 'PS' in call:
-            return call['PS']
+        if 'PS' in call._fields:
+            return call.PS
 
 
 def add_group(grouped_variants, current_group, phased):
@@ -100,9 +108,11 @@ def generate_patterns(count):
 
 def switch(call):
     """Switch the genotype calls around"""
-    new = call.copy()
-    new["GT"] = new["GT"][::-1]
-    return new
+    allele1, allele2 = get_alleles(call)
+    if "/" in call.GT:
+        return call._replace(GT=f"{allele2}/{allele1}")
+    elif "|" in call.GT:
+        return call._replace(GT=f"{allele2}|{allele1}")
 
 
 def switch_variant(var):
