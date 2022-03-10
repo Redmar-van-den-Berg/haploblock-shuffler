@@ -3,7 +3,7 @@ import copy
 
 def is_homozygous(call):
     """Determine if a call is homozygous"""
-    return call['GT'][0] == call['GT'][1]
+    return call["GT"][0] == call["GT"][1]
 
 
 def is_heterozygous(call):
@@ -14,8 +14,8 @@ def is_heterozygous(call):
 def is_compatible(call1, call2):
     """Are two calls compatible"""
     # If both are phased, the phase set must match.
-    if 'PS' in call1 and 'PS' in call2:
-        return call1['PS'] == call2['PS']
+    if "PS" in call1 and "PS" in call2:
+        return call1["PS"] == call2["PS"]
 
     # Two homozygous calls are compatible
     if is_homozygous(call1) or is_homozygous(call2):
@@ -64,14 +64,14 @@ def generate_patterns(count):
     if count < 1:
         return list()
 
-    for i in range(2**(count-1)):
-        yield [int(x) for x in format(i, 'b').zfill(count)]
+    for i in range(2 ** (count - 1)):
+        yield [int(x) for x in format(i, "b").zfill(count)]
 
 
 def switch(call):
     """Switch the genotype calls around"""
     new = call.copy()
-    new['GT'] = new['GT'][::-1]
+    new["GT"] = new["GT"][::-1]
     return new
 
 
@@ -93,4 +93,6 @@ def all_combinations(variants):
     grouped = group_variants(variants)
 
     for pattern in generate_patterns(len(grouped)):
-        yield [switch_variants(group) if p else group for group, p in zip(grouped, pattern)]
+        yield [
+            switch_variants(group) if p else group for group, p in zip(grouped, pattern)
+        ]
