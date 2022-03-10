@@ -163,3 +163,21 @@ def test_switch_variants():
     # Test that the original variants remain unmodified
     assert utils.get_call(var1)['GT'] == (1, 0)
     assert utils.get_call(var2)['GT'] == (0, 1)
+
+
+def test_all_combinations():
+    het1 = {'GT': (1, 0)}
+    var1 = types.SimpleNamespace(samples=[het1])
+
+    het2 = {'GT': (0, 1)}
+    var2 = types.SimpleNamespace(samples=[het2])
+
+    # pattern 00, where both are unchanged
+    it = utils.all_combinations([var1, var2])
+    result = next(it)
+    assert [utils.get_call(var[0])['GT'] for var in result] == [(1, 0), (0, 1)]
+
+    # pattern 01, where the second variant is switched
+    result = next(it)
+    print(result)
+    assert [utils.get_call(var[0])['GT'] for var in result] == [(1, 0), (1, 0)]

@@ -93,4 +93,4 @@ def all_combinations(variants):
     grouped = group_variants(variants)
 
     for pattern in generate_patterns(len(grouped)):
-        pass
+        yield [switch_variants(group) if p else group for group, p in zip(grouped, pattern)]
