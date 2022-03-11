@@ -173,9 +173,6 @@ def test_switch_call_variant():
     # Test if we switched the calls around
     assert utils.get_call(switched) == Call("1/0")
 
-    # Make sure we didn't modify the original var
-    assert utils.get_call(var) == Call("0/1")
-
 
 def test_switch_variants():
     het1 = Call("1/0")
@@ -189,10 +186,6 @@ def test_switch_variants():
     # Test if we got back both variants switched
     assert utils.get_call(switched[0]).GT == "0/1"
     assert utils.get_call(switched[1]).GT == "1/0"
-
-    # Test that the original variants remain unmodified
-    assert utils.get_call(var1).GT == "1/0"
-    assert utils.get_call(var2).GT == "0/1"
 
 
 def test_get_phase_id():

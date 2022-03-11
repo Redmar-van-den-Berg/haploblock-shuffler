@@ -1,4 +1,3 @@
-import copy
 import vcf
 
 
@@ -71,6 +70,7 @@ def add_group(grouped_variants, current_group, phased):
     This can be tricky when there are phased variants
     """
     phase_id = get_phase_id(current_group)
+    print(phase_id)
     if not phase_id:
         grouped_variants.append(current_group)
     else:
@@ -130,14 +130,13 @@ def switch(call):
 
 
 def switch_variant(var):
-    """Switch the calls for a variant around"""
-    newvar = copy.copy(var)
-    call = get_call(newvar)
+    """Switch the calls for a variant around (modifies in place)"""
+    call = get_call(var)
     if isinstance(var, vcf.model._Record):
-        newvar.samples[0].data = switch(call)
+        var.samples[0].data = switch(call)
     else:
-        newvar.samples = [switch(call)]
-    return newvar
+        var.samples = [switch(call)]
+    return var
 
 
 def switch_variants(variants):
