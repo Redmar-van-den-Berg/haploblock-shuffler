@@ -127,7 +127,6 @@ def test_group_variants_interleafed():
         [var2]
     ]
 
-    print(utils.group_variants(variants))
     assert utils.group_variants(variants) == expected
 
 

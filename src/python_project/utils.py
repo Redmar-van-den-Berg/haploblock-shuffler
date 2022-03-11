@@ -131,9 +131,12 @@ def switch(call):
 
 def switch_variant(var):
     """ Switch the calls for a variant around """
-    newvar = copy.deepcopy(var)
+    newvar = copy.copy(var)
     call = get_call(newvar)
-    newvar.samples = [switch(call)]
+    if isinstance(var, vcf.model._Record):
+        newvar.samples[0].data = switch(call)
+    else:
+        newvar.samples = [switch(call)]
     return newvar
 
 
