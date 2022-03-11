@@ -112,7 +112,12 @@ def group_variants(variants):
 
 
 def generate_patterns(count):
-    """Generate patterns for switching variants around"""
+    """Generate patterns for switching variants around
+
+    >>> list(generate_patterns(3))
+    [[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1]]
+
+    """
     if count < 1:
         return list()
 
