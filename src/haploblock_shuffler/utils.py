@@ -150,6 +150,10 @@ def all_combinations(variants):
     grouped = group_variants(variants)
 
     for pattern in generate_patterns(len(grouped)):
+        print(f"Running inversion pattern {pattern}")
         yield [
             switch_variants(group) if p else group for group, p in zip(grouped, pattern)
         ]
+        # Switch again to restore the original variant calls, since we change
+        # them in place
+        [switch_variants(group) if p else group for group, p in zip(grouped, pattern)]

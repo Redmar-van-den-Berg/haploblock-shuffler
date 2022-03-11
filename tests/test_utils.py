@@ -1,7 +1,7 @@
 import types
 from collections import namedtuple
 
-from python_project import utils
+from haploblock_shuffler import utils
 
 
 Call = namedtuple('Call', 'GT')
