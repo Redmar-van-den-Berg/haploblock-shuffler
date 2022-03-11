@@ -3,10 +3,10 @@ import vcf
 
 
 def get_alleles(call):
-    if '/' in call.GT:
-        return call.GT.split('/')
-    elif '|' in call.GT:
-        return call.GT.split('|')
+    if "/" in call.GT:
+        return call.GT.split("/")
+    elif "|" in call.GT:
+        return call.GT.split("|")
 
 
 def is_homozygous(call):
@@ -44,12 +44,12 @@ def is_compatible(call1, call2):
 
 
 def are_compatible(calls, call):
-    """ Determine if a call is compatible with a list of calls """
+    """Determine if a call is compatible with a list of calls"""
     return all((is_compatible(call, c) for c in calls))
 
 
 def get_call(variant):
-    """ Return the call from a variant """
+    """Return the call from a variant"""
     # Real data
     if isinstance(variant, vcf.model._Record):
         return variant.samples[0].data
@@ -130,7 +130,7 @@ def switch(call):
 
 
 def switch_variant(var):
-    """ Switch the calls for a variant around """
+    """Switch the calls for a variant around"""
     newvar = copy.copy(var)
     call = get_call(newvar)
     if isinstance(var, vcf.model._Record):

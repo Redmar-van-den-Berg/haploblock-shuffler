@@ -61,7 +61,7 @@ setup(
     ],
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, >=3.7.*, !=3.9.*",
     install_requires=[
-        "pyvcf == 0.6.*"
+        "pyvcf3"
     ],
     extras_require={
         # eg:
