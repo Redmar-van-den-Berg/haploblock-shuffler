@@ -33,7 +33,7 @@ def is_compatible(call1, call2):
     if ps_defined(call1) and ps_defined(call2):
         return call1.PS == call2.PS
 
-    # Two homozygous calls are compatible
+    # Any two calls where one is homozygous are compatible
     if is_homozygous(call1) or is_homozygous(call2):
         return True
 
@@ -70,7 +70,6 @@ def add_group(grouped_variants, current_group, phased):
     This can be tricky when there are phased variants
     """
     phase_id = get_phase_id(current_group)
-    print(phase_id)
     if not phase_id:
         grouped_variants.append(current_group)
     else:
