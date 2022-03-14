@@ -31,12 +31,13 @@ the possible VCF file, since the other half are mirror images (e.g. `0101` and
 
 ## Usage
 ```bash
-haploblock-shuffler test.vcf
+haploblock-shuffler test.vcf output
 ```
 
 To generate consensus fasta files from the output vcf files, bgzip and index
 the output vcf files
 ```bash
+cd output
 for i in out_*.vcf; do
     bgzip $i
     tabix ${i}.gz
