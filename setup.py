@@ -3,31 +3,25 @@
 from __future__ import absolute_import
 from __future__ import print_function
 
-import io
-import re
 from glob import glob
 from os.path import basename
-from os.path import dirname
-from os.path import join
 from os.path import splitext
 
 from setuptools import find_packages
 from setuptools import setup
 
-
-def read(*names, **kwargs):
-    with io.open(
-        join(dirname(__file__), *names), encoding=kwargs.get("encoding", "utf8")
-    ) as fh:
-        return fh.read()
-
+# Read the contents of the README file
+from pathlib import Path
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="haploblock-shuffler",
-    version="0.0.1",
+    version="0.0.4",
     license="MIT",
-    description="Shuffle phased and unphased variants",
-    long_description="Create all possible combinations of phased and unphased blocks in a vcf",
+    description="Create all possible combinations of phased and unphased blocks in a vcf",
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author="Redmar van den Berg",
     author_email="RedmarvandenBerg@lumc.nl",
     url="https://github.com/redmar-van-den-berg/haploblock-shuffler",
