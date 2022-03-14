@@ -28,6 +28,11 @@ def main():
 
     all_variants = list(vcf_in)
 
+    # If there are no variants, we write a single VCF with only the headers
+    if not all_variants:
+        with open(f"{args.output}/out_0.vcf", "w") as fout:
+            vcf_out = vcf.Writer(fout, template=vcf_in)
+
     for i, variants in enumerate(all_combinations(all_variants)):
         with open(f"{args.output}/out_{i}.vcf", "w") as fout:
             vcf_out = vcf.Writer(fout, template=vcf_in)

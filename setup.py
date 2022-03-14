@@ -17,7 +17,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="haploblock-shuffler",
-    version="0.0.4",
+    version="0.0.5",
     license="MIT",
     description="Create all possible combinations of phased and unphased blocks in a vcf",
     long_description=long_description,
