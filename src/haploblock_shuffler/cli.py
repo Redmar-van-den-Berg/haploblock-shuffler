@@ -19,6 +19,13 @@ def main():
     )
     parser.add_argument("vcf", help="VCF file to generate combinations from")
     parser.add_argument("output", help="Output folder to write combinations to")
+    parser.add_argument(
+        "--max-blocks",
+        type=int,
+        default=11,
+        required=False,
+        help="Maximum number of supported blocks",
+    )
     args = parser.parse_args()
 
     # Create output folder
@@ -33,7 +40,7 @@ def main():
         with open(f"{args.output}/out_0.vcf", "w") as fout:
             vcf_out = vcf.Writer(fout, template=vcf_in)
 
-    for i, variants in enumerate(all_combinations(all_variants)):
+    for i, variants in enumerate(all_combinations(all_variants, args.max_blocks)):
         with open(f"{args.output}/out_{i}.vcf", "w") as fout:
             vcf_out = vcf.Writer(fout, template=vcf_in)
             flatten = [record for group in variants for record in group]

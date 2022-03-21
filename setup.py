@@ -12,16 +12,17 @@ from setuptools import setup
 
 # Read the contents of the README file
 from pathlib import Path
+
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="haploblock-shuffler",
-    version="0.0.5",
+    version="0.0.6",
     license="MIT",
     description="Create all possible combinations of phased and unphased blocks in a vcf",
     long_description=long_description,
-    long_description_content_type='text/markdown',
+    long_description_content_type="text/markdown",
     author="Redmar van den Berg",
     author_email="RedmarvandenBerg@lumc.nl",
     url="https://github.com/redmar-van-den-berg/haploblock-shuffler",
@@ -49,18 +50,15 @@ setup(
         "Topic :: Utilities",
     ],
     project_urls={
-        "Changelog": "https://github.com/redmar-van-den-berg/haploblock-shuffler/blob/master/CHANGELOG.rst",
+        "Changelog": "https://github.com/redmar-van-den-berg/haploblock-shuffler/blob/master/CHANGELOG.md",
         "Issue Tracker": "https://github.com/redmar-van-den-berg/haploblock-shuffler/issues",
     },
     keywords=[
         # eg: 'keyword1', 'keyword2', 'keyword3',
     ],
     python_requires=">=3.7.*",
-    install_requires=[
-        "pyvcf3"
-    ],
-    extras_require={
-    },
+    install_requires=["pyvcf3"],
+    extras_require={},
     setup_requires=["pytest-runner"],
     entry_points={
         "console_scripts": ["haploblock-shuffler=haploblock_shuffler.cli:main"]

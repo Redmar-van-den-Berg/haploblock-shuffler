@@ -48,3 +48,10 @@ Then, generate the consensus using
 samtools faidx $REFERENCE $REGION | bcftools consensus -H 1 out_0.vcf.gz > out_0_1.fa
 samtools faidx $REFERENCE $REGION | bcftools consensus -H 2 out_0.vcf.gz > out_0_2.fa
 ```
+
+## Limitations
+This tool will generate `2^(n-1)` VCF files in the specified `output` folder,
+where `n` is the number of phase blocks in the input VCF (see above). By
+default, this is limited to 11 blocks, which means that at most 1024 files will
+be created. This limit can be increased by using `--max-blocks`, but use with
+caution.

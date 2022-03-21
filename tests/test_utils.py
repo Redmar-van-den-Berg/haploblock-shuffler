@@ -209,7 +209,7 @@ def test_all_combinations():
     var2 = types.SimpleNamespace(samples=[het2])
 
     # pattern 00, where both are unchanged
-    it = utils.all_combinations([var1, var2])
+    it = utils.all_combinations([var1, var2], 2)
     result = next(it)
     assert [utils.get_call(var[0]).GT for var in result] == ["1/0", "0/1"]
 

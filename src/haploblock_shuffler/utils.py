@@ -148,9 +148,13 @@ def switch_variants(variants):
     return [switch_variant(var) for var in variants]
 
 
-def all_combinations(variants):
+def all_combinations(variants, max_blocks):
     """Yield all possible combinations of variants"""
     grouped = group_variants(variants)
+
+    if len(grouped) > max_blocks:
+        msg = f"Identified {len(grouped)} blocks, only {max_blocks} are supported"
+        raise RuntimeError(msg)
 
     for pattern in generate_patterns(len(grouped)):
         print(f"Running inversion pattern {pattern}")
